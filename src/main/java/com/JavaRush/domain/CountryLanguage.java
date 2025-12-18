@@ -3,31 +3,26 @@ package com.JavaRush.domain;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 
 @Entity
-@Table(schema = "world", name = "country_language")
-public class City {
+@Table(name = "country_language")
+public class CountryLanguage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
-
-    @Column(name = "district", nullable = false, length = 20)
-    private String district;
 
     @Column(name = "language", nullable = false, length = 30)
     private String language;
 
-    @Column(name = "is_official", columnDefinition = "BIT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private Boolean isOfficial;;
+    @Column(name = "is_official", nullable = false)
+    private Boolean isOfficial = false;
 
     @Column(name = "percentage", nullable = false, precision = 4, scale = 1)
     private BigDecimal percentage;
@@ -48,14 +43,6 @@ public class City {
         this.country = country;
     }
 
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
     public String getLanguage() {
         return language;
     }
@@ -64,12 +51,12 @@ public class City {
         this.language = language;
     }
 
-    public Boolean getOfficial() {
+    public Boolean getIsOfficial() {
         return isOfficial;
     }
 
-    public void setOfficial(Boolean official) {
-        isOfficial = official;
+    public void setIsOfficial(Boolean isOfficial) {
+        this.isOfficial = isOfficial;
     }
 
     public BigDecimal getPercentage() {
@@ -79,4 +66,5 @@ public class City {
     public void setPercentage(BigDecimal percentage) {
         this.percentage = percentage;
     }
+
 }
