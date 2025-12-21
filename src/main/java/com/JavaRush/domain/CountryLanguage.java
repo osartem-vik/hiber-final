@@ -3,6 +3,7 @@ package com.JavaRush.domain;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 
@@ -10,18 +11,19 @@ import java.math.BigDecimal;
 @Table(name = "country_language")
 public class CountryLanguage {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
     @Column(name = "language", nullable = false, length = 30)
     private String language;
 
-    @Column(name = "is_official", nullable = false)
+    @Column(name = "is_official", columnDefinition = "BIT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isOfficial = false;
 
     @Column(name = "percentage", nullable = false, precision = 4, scale = 1)
@@ -51,12 +53,12 @@ public class CountryLanguage {
         this.language = language;
     }
 
-    public Boolean getIsOfficial() {
+    public Boolean getOfficial() {
         return isOfficial;
     }
 
-    public void setIsOfficial(Boolean isOfficial) {
-        this.isOfficial = isOfficial;
+    public void setOfficial(Boolean official) {
+        isOfficial = official;
     }
 
     public BigDecimal getPercentage() {
@@ -66,5 +68,4 @@ public class CountryLanguage {
     public void setPercentage(BigDecimal percentage) {
         this.percentage = percentage;
     }
-
 }
