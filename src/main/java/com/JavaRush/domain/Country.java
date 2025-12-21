@@ -1,11 +1,8 @@
 package com.JavaRush.domain;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -19,7 +16,7 @@ public class Country {
     private String code;
 
     @Column(name = "code_2", nullable = false, length = 2)
-    private String code2;
+    private String alternativeCode;
 
     @Column(name = "name", nullable = false, length = 52)
     private String name;
@@ -58,13 +55,13 @@ public class Country {
     @Column(name = "head_of_state", length = 60)
     private String headOfState;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "capital")
     private City city;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id")
-    private Set<CountryLanguage> countryLanguages;
+    private Set<CountryLanguage> languages;
 
     public Integer getId() {
         return id;
@@ -82,12 +79,12 @@ public class Country {
         this.code = code;
     }
 
-    public String getCode2() {
-        return code2;
+    public String getAlternativeCode() {
+        return alternativeCode;
     }
 
-    public void setCode2(String code2) {
-        this.code2 = code2;
+    public void setAlternativeCode(String code2) {
+        this.alternativeCode = code2;
     }
 
     public String getName() {
@@ -194,11 +191,11 @@ public class Country {
         this.city = city;
     }
 
-    public Set<CountryLanguage> getCountryLanguages() {
-        return countryLanguages;
+    public Set<CountryLanguage> getLanguages() {
+        return languages;
     }
 
-    public void setCountryLanguages(Set<CountryLanguage> countryLanguages) {
-        this.countryLanguages = countryLanguages;
+    public void setLanguages(Set<CountryLanguage> countryLanguages) {
+        this.languages = countryLanguages;
     }
 }
