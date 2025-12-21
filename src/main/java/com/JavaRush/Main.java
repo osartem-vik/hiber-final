@@ -84,9 +84,26 @@ public class Main {
         List<City> allCities = main.fetchData(main);
         List<CityCountry> preparedData = main.transformData(allCities);
         main.pushToRedis(preparedData);
+
+        //закриємо поточну сесію, щоб точно зробити запит до БД, а не витянути дані з кеша
+        main.sessionFactory.getCurrentSession().close();
+
+        //обираємо 10 випадкових id міст
+        //оскільки ми не робили обробку невалідних ситуацій, використовуй id, які існують БД
+        List<Integer> ids = List.of(3, 2545, 123, 4, 189, 89, 3458, 1189, 10, 102);
+
+        long startRedis = System.currentTimeMillis();
+        main.testRedisData(ids);
+        long stopRedis = System.currentTimeMillis();
+
+        long startMysql = System.currentTimeMillis();
+        main.testMysqlData(ids);
+        long stopMysql = System.currentTimeMillis();
+
+        System.out.printf("%s:\t%d ms\n", "Redis", (stopRedis - startRedis));
+        System.out.printf("%s:\t%d ms\n", "MySQL", (stopMysql - startMysql));
+
         main.shutdown();
-
-
     }
 
     private void pushToRedis(List<CityCountry> data) {

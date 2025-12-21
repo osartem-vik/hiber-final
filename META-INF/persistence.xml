@@ -8,5 +8,6 @@
     <class>com.JavaRush.domain.City</class>
     <class>com.JavaRush.domain.Country</class>
     <class>com.JavaRush.domain.CountryLanguage</class>
+      <class>com.JavaRush.domain.City</class>
   </persistence-unit>
 </persistence>
