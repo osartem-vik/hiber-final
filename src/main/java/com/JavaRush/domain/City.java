@@ -3,34 +3,27 @@ package com.JavaRush.domain;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Type;
-
-import java.math.BigDecimal;
 
 @Entity
-@Table(schema = "world", name = "country_language")
+@Table(name = "city")
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne
+    @Column(name = "name", nullable = false, length = 35)
+    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
     @Column(name = "district", nullable = false, length = 20)
     private String district;
 
-    @Column(name = "language", nullable = false, length = 30)
-    private String language;
-
-    @Column(name = "is_official", columnDefinition = "BIT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private Boolean isOfficial;;
-
-    @Column(name = "percentage", nullable = false, precision = 4, scale = 1)
-    private BigDecimal percentage;
+    @Column(name = "population", nullable = false)
+    private Integer population;
 
     public Integer getId() {
         return id;
@@ -38,6 +31,14 @@ public class City {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Country getCountry() {
@@ -56,27 +57,12 @@ public class City {
         this.district = district;
     }
 
-    public String getLanguage() {
-        return language;
+    public Integer getPopulation() {
+        return population;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setPopulation(Integer population) {
+        this.population = population;
     }
 
-    public Boolean getOfficial() {
-        return isOfficial;
-    }
-
-    public void setOfficial(Boolean official) {
-        isOfficial = official;
-    }
-
-    public BigDecimal getPercentage() {
-        return percentage;
-    }
-
-    public void setPercentage(BigDecimal percentage) {
-        this.percentage = percentage;
-    }
 }
